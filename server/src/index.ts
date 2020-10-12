@@ -1,20 +1,24 @@
 import "reflect-metadata";
-import { MovieModel } from "./db";
-// import { plainToClass } from "class-transformer";
-// import { validate } from "class-validator";
-// import { Movie } from "./entities/Movie";
-// const movie = new Movie();
-// movie.name = "来电狂想";
-// movie.types = ["喜剧"];
-// movie.areas = ["中国大陆"];
-// movie.timeLong = 3;
-// const m = { name: 123 };
-// const movie = plainToClass(Movie, m);
-// validate(movie).then(error => {
-//   console.log(error);
+import { MovieService } from "./services/MovieService";
+
+
+const movie = {
+  name: '心花怒放',
+  timeLong: 233,
+  types: ['喜剧'],
+  areas: ['中国大陆']
+}
+// MovieService.addMovie(movie).then(res => {
+//   console.log(res);
+// });
+// MovieService.edit('5f8423ebb80bc100a046c38d',movie).then(res=>{
+//   console.log(res);
 // })
 
-MovieModel.find().then(ms => {
-  console.log(ms);
-})
+// MovieService.find({ name: '一路向北' }).then(res => {
+//   console.log(res);
+// })
 
+MovieService.delete(['5f842c7071c36b346428dd51']).then(res=>{
+  console.log(res);
+})

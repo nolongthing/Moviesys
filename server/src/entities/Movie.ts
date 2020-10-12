@@ -1,39 +1,39 @@
-import { Type } from "class-transformer";
-import { ArrayMinSize, IsArray, IsInt, IsNotEmpty, Max, Min } from "class-validator";
+import { plainToClass, Type } from "class-transformer";
+import { ArrayMinSize, IsArray, IsInt, IsNotEmpty, Max, Min, validate } from "class-validator";
 
 export class Movie {
-  @IsNotEmpty({ message: '电影名称不能为空' })
+  @IsNotEmpty({ message: '电影名称name不能为空' })
   @Type(() => String)
   public name: string;
 
-  @IsNotEmpty({ message: "电影类型不能为空" })
-  @ArrayMinSize(1, { message: "电影类型至少有一项" })
-  @IsArray({message:"电影类型必须为数组"})
+  @IsNotEmpty({ message: "电影类型types不能为空" })
+  @ArrayMinSize(1, { message: "电影类型types至少有一项" })
+  @IsArray({ message: "电影类型types必须为数组" })
   @Type(() => String)
   public types: string[]
 
-  @IsNotEmpty({ message: "上映地区不能为空" })
-  @ArrayMinSize(1, { message: "上映地区至少有一项" })
-  @IsArray({message:"上映地区必须为数组"})
+  @IsNotEmpty({ message: "上映地区areas不能为空" })
+  @ArrayMinSize(1, { message: "上映地区areas至少有一项" })
+  @IsArray({ message: "上映地区areas必须为数组" })
   @Type(() => String)
   public areas: string[]
 
-  @IsNotEmpty({ message: "时长不能为空" })
-  @IsInt({ message: "时长必须为整数" })
-  @Min(1, { message: "时长最小为1分钟" })
-  @Max(1800, { message: "时长最大为1800分钟" })
+  @IsNotEmpty({ message: "时长timeLong不能为空" })
+  @IsInt({ message: "时长timeLong必须为整数" })
+  @Min(1, { message: "时长timeLong最小为1分钟" })
+  @Max(1800, { message: "时长timeLong最大为1800分钟" })
   @Type(() => Number)
   public timeLong: number
 
-  @IsNotEmpty({ message: "是否热映不可以为空" })
+  @IsNotEmpty({ message: "是否热映isHot不可以为空" })
   @Type(() => Boolean)
   public isHot: boolean = false
 
-  @IsNotEmpty({ message: "是否即将上映不可以为空" })
+  @IsNotEmpty({ message: "是否即将上映isComing不可以为空" })
   @Type(() => Boolean)
   public isComing: boolean = false
 
-  @IsNotEmpty({ message: "是否经典影片不可以为空" })
+  @IsNotEmpty({ message: "是否经典影片isClassic不可以为空" })
   @Type(() => Boolean)
   public isClassic: boolean = false
 
@@ -42,4 +42,21 @@ export class Movie {
 
   @Type(() => String)
   public poster?: string
+
+  async validateThis() {
+    const errors = await validate(this);
+    let errorArr: string[] = [];
+    const temp = errors.map(i => Object.values(i.constraints || {}));
+    temp.forEach(item => {
+      errorArr = [...errorArr,...item];
+    })
+    return errorArr;
+  }
+
+  static MovieTransform(plainObj: object): Movie {
+    if (plainObj instanceof Movie) {
+      return plainObj;
+    }
+    return plainToClass(this, plainObj);
+  }
 }
