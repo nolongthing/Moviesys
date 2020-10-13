@@ -1,13 +1,24 @@
 import "reflect-metadata";
 import { MovieService } from "./services/MovieService";
+import MovieRouter from './routers/MovieRouter';
+import express from 'express';
+
+const app = express();
+
+app.use('/api/movie', MovieRouter)
 
 
-const movie = {
-  name: '心花怒放',
-  timeLong: 233,
-  types: ['喜剧'],
-  areas: ['中国大陆']
-}
+app.listen(12306, () => {
+  console.log('port listen on 3000')
+});
+
+
+// const movie = {
+//   name: '从心出发',
+//   timeLong: 233,
+//   types: ['喜剧'],
+//   areas: ['中国大陆']
+// }
 // MovieService.addMovie(movie).then(res => {
 //   console.log(res);
 // });
@@ -19,6 +30,6 @@ const movie = {
 //   console.log(res);
 // })
 
-MovieService.delete(['5f842c7071c36b346428dd51']).then(res=>{
-  console.log(res);
-})
+// MovieService.delete(['5f842c7071c36b346428dd51']).then(res=>{
+//   console.log(res);
+// })

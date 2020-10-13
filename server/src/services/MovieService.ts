@@ -6,7 +6,7 @@ import { Movie } from "../entities/Movie";
 export class MovieService {
   private static async supFun(movie) {
     /* 对象转换 */
-    const movieTrue = Movie.MovieTransform(movie);
+    const movieTrue = Movie.MovieTransform<Movie>(Movie, movie);
     /* 数据验证 */
     const validateResult = await movieTrue.validateThis();
     if (validateResult.length > 0) {
@@ -37,7 +37,7 @@ export class MovieService {
     }
   }
 
-  static async find(query: object, limit: number = 1, page: number = 0) {
+  static async find(query: object, limit: number = 10, page: number = 0) {
     const result = await MovieModel.find(query, '', { limit: limit, skip: page * limit });
     return result;
   }

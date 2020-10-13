@@ -1,7 +1,8 @@
 import { plainToClass, Type } from "class-transformer";
 import { ArrayMinSize, IsArray, IsInt, IsNotEmpty, Max, Min, validate } from "class-validator";
+import { BaseEntity } from "./BaseEntity";
 
-export class Movie {
+export class Movie extends BaseEntity{
   @IsNotEmpty({ message: '电影名称name不能为空' })
   @Type(() => String)
   public name: string;
@@ -42,21 +43,4 @@ export class Movie {
 
   @Type(() => String)
   public poster?: string
-
-  async validateThis() {
-    const errors = await validate(this);
-    let errorArr: string[] = [];
-    const temp = errors.map(i => Object.values(i.constraints || {}));
-    temp.forEach(item => {
-      errorArr = [...errorArr,...item];
-    })
-    return errorArr;
-  }
-
-  static MovieTransform(plainObj: object): Movie {
-    if (plainObj instanceof Movie) {
-      return plainObj;
-    }
-    return plainToClass(this, plainObj);
-  }
 }
