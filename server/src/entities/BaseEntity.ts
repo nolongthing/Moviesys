@@ -3,8 +3,10 @@ import { ClassType } from "class-transformer/ClassTransformer";
 import { validate } from "class-validator";
 
 export abstract class BaseEntity {
-  async validateThis() {
-    const errors = await validate(this);
+  async validateThis(isSkip = false) {
+    const errors = await validate(this, {
+      skipMissingProperties: isSkip
+    });
     let errorArr: string[] = [];
     const temp = errors.map(i => Object.values(i.constraints || {}));
     temp.forEach(item => {

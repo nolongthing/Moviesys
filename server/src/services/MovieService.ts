@@ -4,11 +4,11 @@ import { IMovie } from "../db/MovieSchema";
 import { Movie } from "../entities/Movie";
 
 export class MovieService {
-  private static async supFun(movie) {
+  private static async supFun(movie, isSkip = false) {
     /* 对象转换 */
     const movieTrue = Movie.MovieTransform<Movie>(Movie, movie);
     /* 数据验证 */
-    const validateResult = await movieTrue.validateThis();
+    const validateResult = await movieTrue.validateThis(isSkip);
     if (validateResult.length > 0) {
       return validateResult;
     } else {
@@ -28,7 +28,7 @@ export class MovieService {
   }
 
   static async edit(_id: string, movie: object) {
-    const movieTrue = await this.supFun(movie);
+    const movieTrue = await this.supFun(movie, true);
     if (movieTrue instanceof Movie) {
       const result = await MovieModel.updateOne({ _id }, movie);
       return result;
