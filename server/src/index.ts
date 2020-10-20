@@ -2,12 +2,14 @@ import "reflect-metadata";
 import { MovieService } from "./services/MovieService";
 import MovieRouter from './routers/MovieRouter';
 import UploadRouter from './routers/UploadRouter';
+import bodyParser from 'body-parser';
 import path from 'path';
 
 import express from 'express';
 
 const app = express();
 
+app.use(bodyParser.json());
 /* 路由拦截 */
 // app.use((req, res, next) => {
 //   console.log('收到一个请求');
@@ -27,13 +29,25 @@ app.listen(12306, () => {
   console.log('port listen on 12306')
 });
 
-
-// const movie = {
-//   name: '从心出发',
-//   timeLong: 233,
-//   types: ['喜剧'],
-//   areas: ['中国大陆']
+// function getRandom(min, max) {
+//   return Math.floor(Math.random()  * max+ min)
 // }
+
+// const areasArr = ["中国大陆", "中国台湾", "美国", "欧洲", "日本"];
+// const typesArr = ["喜剧", "动作", "冒险", "外语"]
+// for (let index = 1; index < 1000; index++) {
+//   const movie = {
+//     name: `电影${index}`,
+//     timeLong: getRandom(1, 500),
+//     types: [typesArr[getRandom(0, 4)]],
+//     areas: [areasArr[getRandom(0, 5)]],
+//   }
+//   MovieService.addMovie(movie).then(res => {
+
+//   });
+// }
+
+
 // MovieService.addMovie(movie).then(res => {
 //   console.log(res);
 // });

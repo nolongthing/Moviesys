@@ -8,8 +8,15 @@ router.get('/:id', async (req, res) => {
   res.send(movie);
 })
 
-router.post('/', (req, res) => {
-  res.send('post')
+router.get('/', async (req, res) => {
+  const { name, ...rest } = req.body;
+  const result = await MovieService.find(name ? { name: new RegExp(name, "g") } : {}, rest.limit, rest.page - 1);
+  res.send(result);
+})
+
+router.post('/', async (req, res) => {
+
+  res.send('post');
 })
 
 router.put('/', (req, res) => {

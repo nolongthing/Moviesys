@@ -38,8 +38,9 @@ export class MovieService {
   }
 
   static async find(query: object, limit: number = 10, page: number = 0) {
-    const result = await MovieModel.find(query, '', { limit: limit, skip: page * limit });
-    return result;
+    const result = await MovieModel.find(query, '', { limit: limit, skip: page * limit }).sort({ _id: 1 });
+    const total = await MovieModel.countDocuments(query);
+    return { total, data: result };
   }
 
   static async delete(ids: string[]) {
