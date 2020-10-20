@@ -1,20 +1,28 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getMovieAction } from './Redux/action';
-
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import "antd/dist/antd.css";
 
 function App() {
-  // const state = useSelector<any>(state => state.MovieReducer.movieState)
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getMovieAction());
-  // }, [])
-  console.log(111);
+  // const list = [{
+  //   id: 1,
+  //   children: [{
+  //     id: 2,
+  //     children: [{
+  //       id: 3
+  //     }]
+  //   }]
+  // }];
+
+  // const getId = (list: any[], nextArr: number[] = []): number[] => {
+  //   list.forEach((item: any) => (item.id && nextArr.push(item.id)) && (item.children && getId(item.children, nextArr)))
+  //   return nextArr
+  // }
+  // console.log(getId(list));
   return (
-    <div className="App">
-      hello world！
-      {/* {state ? 1 : 0} */}
-    </div>
+    <BrowserRouter>
+      <Route path="/" component={Layout} />
+    </BrowserRouter>
   );
 }
 
