@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Upload } from 'antd';
 import { RcCustomRequestOptions, UploadFile } from 'antd/lib/upload/interface';
-import { getMovie } from '../api';
 
 export default function UploadCom() {
   const [fileList, setFileList] = useState<any[]>([

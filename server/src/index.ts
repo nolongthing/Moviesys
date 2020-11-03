@@ -1,14 +1,15 @@
 import "reflect-metadata";
-import { MovieService } from "./services/MovieService";
 import MovieRouter from './routers/MovieRouter';
 import UploadRouter from './routers/UploadRouter';
 import bodyParser from 'body-parser';
 import path from 'path';
 
 import express from 'express';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
+// app.use(cookieParser());
 app.use(bodyParser.json());
 /* 路由拦截 */
 // app.use((req, res, next) => {
@@ -22,7 +23,13 @@ app.use('/images', express.static(path.resolve(__dirname, './public/images')));
 /* 文件上传路由 */
 app.use('/api/upload', UploadRouter);
 
-app.use('/api/movie', MovieRouter)
+app.use('/api/movie',cookieParser(),MovieRouter);
+
+app.use('/jsonp', (req, res) => {
+  const obj = { a: 1, b: 3 };
+  // res.cookie('name', 'abc');
+  res.send(`${req.query.cb}(${JSON.stringify(obj)})`)
+})
 
 
 app.listen(12306, () => {
