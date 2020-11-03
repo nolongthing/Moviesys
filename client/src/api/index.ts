@@ -15,3 +15,8 @@ export function doJsonp(url: string, callback: any) {
   script.src = url;
   document.body.appendChild(script);
 }
+
+/* 文件上传接口 */
+export async function uploadImg(data: FormData) {
+  return await Axios.post('/api/upload', data)
+}

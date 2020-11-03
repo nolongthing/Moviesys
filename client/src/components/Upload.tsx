@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Upload } from 'antd';
 import { RcCustomRequestOptions, UploadFile } from 'antd/lib/upload/interface';
+import { uploadImg } from '../api';
 
 export default function UploadCom() {
   const [fileList, setFileList] = useState<any[]>([
@@ -8,24 +9,18 @@ export default function UploadCom() {
     //   uid: '-1',
     //   name: 'image'
     // }
-  ]);
-  // useEffect(() => {
-  //   initFun();
-  // }, [])
-
-  // async function initFun() {
-  //   const { data } = await getMovie();
-  //   console.log(data);
-  // }
+  ])
   function onPreview(data: UploadFile<any>) {
     console.log(data)
   }
-  function uploadAction(options: RcCustomRequestOptions) {
-    console.log(options);
+  async function uploadAction(options: RcCustomRequestOptions) {
     const formData = new FormData();
+    formData.append('image', options.file);
+    const { data } = await uploadImg(formData);
     const file = {
       uid: options.file.uid,
       name: options.file.name,
+      url: `/images/${data.fileName}`
     }
     setFileList([...fileList, file]);
   }
@@ -38,7 +33,7 @@ export default function UploadCom() {
         fileList={fileList}
         onPreview={onPreview}
       >
-        {fileList.length < 1 && '+ Upload'}
+        {fileList.length < 2 && '+ Upload'}
       </Upload>
     </div>
   )
