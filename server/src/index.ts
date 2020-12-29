@@ -1,15 +1,24 @@
+/* class-validator验证库的基础库 */
 import "reflect-metadata";
 import MovieRouter from './routers/MovieRouter';
 import UploadRouter from './routers/UploadRouter';
+/* 解析req参数中间件 */
 import bodyParser from 'body-parser';
 import path from 'path';
+import fs from 'fs';
 
 import express from 'express';
+/* 解析cookie中间件 */
 import cookieParser from 'cookie-parser';
+/* logger中间件 */
+import morgan from 'morgan';
 
 const app = express();
 
-// app.use(cookieParser());
+const accessLogStream = fs.createWriteStream(path.join(__dirname, `/log/access.log`), { flags: 'a' });
+app.use(morgan('combined', {
+  stream: accessLogStream
+}));
 app.use(bodyParser.json());
 /* 路由拦截 */
 // app.use((req, res, next) => {
@@ -23,8 +32,10 @@ app.use('/images', express.static(path.resolve(__dirname, './public/images')));
 /* 文件上传路由 */
 app.use('/api/upload', UploadRouter);
 
-app.use('/api/movie',cookieParser(),MovieRouter);
+/*  */
+app.use('/api/movie', cookieParser(), MovieRouter);
 
+/* jsonp接口返回 */
 app.use('/jsonp', (req, res) => {
   const obj = { a: 1, b: 3 };
   // res.cookie('name', 'abc');
